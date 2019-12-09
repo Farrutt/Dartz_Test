@@ -467,12 +467,3 @@ import paramiko
 
 # ************ Edit 1 **************
 
-# ---- ex1-------
-box1_w = 10
-box1_l = 15
-box1_h = 10
-box2_w = 2
-box2_l = 10
-box2_h = 25
-ans_box1 = box1_w*box1_l*box1_h
-ans_box2 = box2_w*box2_l*box2_h
