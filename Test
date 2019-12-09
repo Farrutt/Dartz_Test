@@ -1,0 +1,466 @@
+# -*- coding: utf-8 -*-
+import datetime
+import threading
+import time
+import psutil
+import mysql.connector
+import requests
+import json
+import paramiko
+
+# ---- ex1-------
+# box1_w = 10
+# box1_l = 15
+# box1_h = 10
+# box2_w = 2
+# box2_l = 10
+# box2_h = 25
+# ans_box1 = box1_w*box1_l*box1_h
+# ans_box2 = box2_w*box2_l*box2_h
+# print "answer:",ans_box1/ans_box2
+
+# ----- ex2 -----
+# r = input("radius :")
+# h = input("high : ")
+# def cone(input1,input2):
+#     return ((1.0/3.0)*3.141)**input1*input2
+# answer = cone(r,h)
+# print answer
+
+# --------Ex3------------
+# s = input("score:")
+# if s >= 90:
+#     print("เก่งมาก สอบผ่าน")
+# elif s >= 60:
+#     print("สอบผ่าน")
+# elif s < 60:
+#     print("สอบตก")
+# else :
+#     print("error")
+
+# -------- Ex4 --------
+# num = input("แม่สูตรคูณที่ต้องการ: ")
+# def koon(input1):
+#     for x in range(1,13):
+#         print "%d * %d =" %(input1,x) ,input1 * x
+# ans = koon(num)
+
+# ------- Ex5 -------
+# while True:
+#     num = input("เลขที่ต้องการ :")
+#     if num%2 == 0:
+#         print "%d" %num ,"เป็นเลขคู่"
+#     else :
+#         print "%d" %num ,"เป็นเลขคี่"
+
+# ------ Ex6 --------
+# list_fruit = ["apple", "banana", "cherry", "mango"]
+# print list_fruit[2]
+# list_fruit.append("orange")
+# list_fruit.append("coconut")
+# print list_fruit
+# list_fruit[0] = "football"
+# print list_fruit
+# list_fruit.remove("banana")
+# print list_fruit
+# print len(list_fruit)
+
+# --------- Ex7 -----------
+# car = {
+# "brand": "Ford",
+# "model": "Mustang",
+# "year": 1964
+# }
+# car["color"] = "red"
+# print car
+# print car["model"]
+# print len(car)
+#-------- Ex8 -----------
+# list_name = ["Alice", "Bob", "Oscar", "Alice", "Alice", "Bob", "Oscar", "Bob"]
+# list_money =[100, 200, 150, 50, 80, 120, 30, 180]
+# my_dict = {}
+# list_total =[]
+# len_name = len(list_name)
+# len_money = len(list_money)
+# for x in range(len_name):
+#     if list_name[x] not in list_total:
+#         list_total.append(list_name[x])
+#         my_dict[list_name[x]]=list_money[x]
+#     else :
+#         my_dict[list_name[x]]+=list_money[x]
+# print my_dict
+
+# ----------- Ex9 ------------
+#data = [
+
+# {"output1": ["MS_AOTBTTEXCH01_DB7 t 12 12",
+# "HP_D2_SATA_TRUE-CJ_01 t 2 2",
+# "SPARC_TOPGUN_OS t 64 64"]
+#
+# },
+# {"output2": ["MS_IDC1_MS_ACI3_PRD01_SAS01 t 28 28",
+# "BTT_EX04_Prod_HMDB10GB01_AC t 15 15",
+# "HP_D1_SAS_SERISYS_2 t 68 68"]
+
+
+
+# }
+# ]
+#print data[0]["output1"]
+
+# for i in range(len(data)):
+#     #print data[i]
+#     for j in data[i]:
+#         #print j
+#         #print data[i][j]
+#         for k in data[i][j]:
+#             sk = k.split()
+#             cvtoint = int(sk[2])
+#             if cvtoint <= 20:
+#                 status= "normal"
+#             else:
+#                 status = "critical"
+#             print sk[0] + ":" + status + "(" + sk[2] + ")"
+  #-----------------------------------------------------
+            #print k
+# len_alldata = len(data)
+# len_data1 = len(data[0]["output1"])
+# len_data2 = len(data[1]["output2"])
+# for x in range(len_alldata):
+#     for y in range(len(data[0]["output1"])):
+#         if x == 0:
+#             ns_data = data[0]["output1"][y]
+#             s_data = data[0]["output1"][y].split()
+#             if y == 2:
+#                 int(s_data[y])
+#                 if s_data[y] >= 20:
+#                     status = "critical"
+#                     print s_data[0] + ":" + status+ "(" + s_data[2] + ")"
+#             else :
+#                 status = "normal"
+#                 print s_data[0] + ":" + status + "(" + s_data[2] + ")"
+#
+#         if x == 1:
+#             ns_data = data[1]["output2"][y]
+#             s_data = data[1]["output2"][y].split()
+#             if y == 2:
+#                 int(s_data[y])
+#                 if s_data[y] >= 20:
+#                     status = "critical"
+#                     print s_data[0] + ":" + status+ "(" + s_data[2] + ")"
+#             else :
+#                 status = "normal"
+#                 print s_data[0] + ":" + status + "(" + s_data[2] + ")"
+#
+#--------- Ex10 ---------
+# Input = "zvzry nzw day is anothzr chancz to changz your lifz."
+# print Input.replace('z','e').capitalize()
+
+#---------- Ex11 ------------
+# Input = """Interface IP-Address OK? Method Status Protocol
+# GigabitEthernet1 192.168.1.3 YES manual down up
+# GigabitEthernet2 172.17.111.3 YES manual up up
+# GigabitEthernet3 192.168.101.3 YES manual up up"""
+# Is = Input.splitlines()
+# #print Is[1:3]
+# for x in Is[1:4]:
+#     if x.split()[4] == "down":
+#         print x.split()[0] + " : " + x.split()[4]
+
+# --------- Ex12 ----------
+# print "My BirthDay is"
+# day = input ("Day: ")
+# month = input ("month: ")
+# year = input ("Year: ")
+# now = datetime.datetime.now()
+# ago = now - datetime.datetime(year,month,day)
+# print ago
+
+# -------- Ex13 ----------
+# now = datetime.datetime.now()
+# for x in range(7):
+#     ago = now - datetime.timedelta(x)
+#     ago = ago.strftime("%A,%d-%b-%Y %I:%M:%S %p")
+#     print "วันที่" ,ago
+
+#--------- Ex14 ------------
+# while True:
+#     try:
+#         Mol = input("มวล: ")
+#         P = input("ปริมาตร: ")
+#         print "ความหนาแน้น มีค่าเท่ากับ %f \nการหาความหนาแน่นเสร็จสิ้น" %(Mol/P)
+#
+#         exit()
+#     except ZeroDivisionError:
+#         print ("ไม่สามารถหารด ้วย 0 ได ้\nขอบคุณครับ")
+#         True
+#     except TypeError:
+#         print ("ไม่สามารถใส่อักษรได้\nขอบคุณครับ")
+#         True
+
+# -------- Ex15 ----------
+        # 1. Sequence Processing
+
+# delay1 = 2
+# delay2 = 3
+# def sqare(input1,delay):
+#     time.sleep(delay)
+#     sum = input1*input1
+#     print "Square = ",sum
+#
+# def cube(input1,delay):
+#     time.sleep(delay)
+#     sum =  input1*input1*input1
+#     print "Cube = ", sum
+#
+# In = input("ป้อนค่า: ")
+# start_time = time.time()
+# sqare(In,delay1)
+# cube(In,delay2)
+# print "Elapsed time: ",time.time()-start_time
+
+            # 2. Parallel Processing
+# delay1 = 2
+# delay2 = 3
+# def sqare(input1,delay):
+#     time.sleep(delay)
+#     sum = input1*input1
+#     print "Square = ",sum
+#
+# def cube(input1,delay):
+#     time.sleep(delay)
+#     sum =  input1*input1*input1
+#     print "Cube = ", sum
+# In = input("ป้อนค่า: ")
+# start_time = time.time()
+# thread1 = threading.Thread(target=sqare,args=(In,delay1))
+# thread2 = threading.Thread(target=cube,args=(In,delay2))
+#
+# thread1.start()
+# thread2.start()
+#
+# thread1.join()
+# thread2.join()
+#
+# print "Elapsed time: ",time.time() - start_time
+
+#-------- Ex16 --------
+# from flask import Flask,request
+# my_app = Flask(__name__)
+# my_dict = {}
+# list_name = []
+# login_u = {}
+# update_u ={}
+# # x = True
+# @my_app.route("/create",methods = ["POST"])
+# def myFirstApi():
+#     data = request.json
+#     my_dict["user"] = data["user"]
+#     my_dict["password"] = data["password"]
+#     print my_dict["user"],my_dict["password"]
+#     return "success"
+#
+# @my_app.route("/login",methods = ["GET"])
+# def login():
+#     user = request.json
+#     login_u["user"] = user["user"]
+#     login_u["password"] = user["password"]
+#
+#     if login_u["user"] == my_dict["user"] :
+#         if login_u["password"] ==  my_dict["password"] :
+#             print "success"
+#
+#         else :
+#             print "invalid password"
+#     else :
+#         print "no user"
+#
+#
+#     return "success"
+# @my_app.route("/update",methods = ["PUT"])
+# def update():
+#     update_u = request.json
+#     my_dict["user"] = update_u["user"]
+#     my_dict["password"] = update_u["password"]
+#     print update_u
+#     return "success"
+# @my_app.route("/delete",methods = ["DELETE"])
+# def delete():
+#     delete_u = request.json
+#     my_dict["user"] = " "
+#     my_dict["password"] = " "
+#     print my_dict
+#     return "success"
+# my_app.run(host="0.0.0.0")
+# -----------------------------------------------------
+# from flask import Flask
+# from flask_basicauth import BasicAuth
+# app = Flask(__name__)
+# app.config['BASIC_AUTH_USERNAME'] = 'sdi'
+# app.config['BASIC_AUTH_PASSWORD'] = 'admin'
+# secure_my_api = BasicAuth(app)
+# @app.route('/')
+# @secure_my_api.required
+# def securedByBasicAuth():
+#     return "Hello, You’re passed the authentication."
+# app.run(host="0.0.0.0")
+#-------------------------------------------------------
+
+# cpu = psutil.cpu_percent(interval=1)
+# #memory = psutil.virtual_memory()
+# # print memory
+# memory = psutil.virtual_memory().used
+# #print memory
+# disk = psutil.disk_usage('/')
+# #print disk
+# all = cpu,memory,disk
+#
+# from flask import Flask,request
+# my_app = Flask(__name__)
+# my_dict = {}
+# my_dict["cpu"] = cpu
+# my_dict["mem"] = memory
+# my_dict["disk"] = disk
+# my_dict["all"] = all
+# print my_dict
+# @my_app.route("/usage",methods = ["GET"])
+# def usage():
+#     data = request.json
+#     if data["What do you want to know?"] == "cpu":
+#         print my_dict["cpu"]
+#         return "Cpu: %s"%str(cpu)
+#     elif data["What do you want to know?"] == "mem":
+#         print my_dict["mem"]
+#         return "Memory: %s"%str(memory)
+#     elif data["What do you want to know?"] == "disk":
+#         print my_dict["disk"]
+#         return "Disk: %s"%str(disk)
+#     elif data["What do you want to know?"] == "all":
+#         print my_dict["cpu"],my_dict["mem"],my_dict["disk"]
+#         return "Cpu,Memory,Disk: %s" % str(all)
+#     else:
+#         print "error"
+#         return "error type"
+#     return "success"
+# my_app.run(host="0.0.0.0")
+
+# ************* DATA BASE *******************
+
+# mydb = mysql.connector.connect(host='localhost',
+#                                port='3306',
+#                                database='user',
+#                                user='root',
+#                                password='dartz123',
+#                                auth_plugin="mysql_native_password")
+# #----------------------------------------------------------------------------------
+# from flask import Flask,request,Response
+# my_app = Flask(__name__)
+# mydict = {}
+# insert_user = {}
+#
+# def json_response(messages=None, status=None, headers=None):
+#     if headers == None:
+#         headers = dict()
+#     headers.update({"Content-Type": "application/json"})
+#     # contents = json.dumps(messages, default=json_util.default).replace('\'', '"')
+#     contents = json.dumps(messages, indent=4, sort_keys=True, default=str).replace('\'', '"')
+#     if(status == None):
+#         status = 200
+#     resp = Response(response=contents, headers=headers, status=int(status))
+#     return resp
+#
+# @my_app.route("/select",methods = ["GET"])
+# def select():
+#     # select_user = request.json
+#     # print select_user
+#     # mydict["id"] = select_user["user_id"]
+#
+#     print mydict
+#     # con_id = int(mydict["id"])
+#
+#     mycursor = mydb.cursor(dictionary=True)
+#     text_command = "select * from user ;"
+#     mycursor.execute(text_command)
+#     myresult = mycursor.fetchall()
+#     #print myresult
+#     return json_response(myresult)
+# #
+# @my_app.route("/insert",methods = ["GET"])
+# def insert():
+#
+#     insert_user = request.json
+#     print insert_user
+#     mydict["id"] = insert_user["user_id"]
+#     mydict["username"] = insert_user["username"]
+#     mydict["name"] = insert_user["name"]
+#     mydict["password"] = insert_user["password"]
+#     print mydict
+#     con_id = int(mydict["id"])
+#     con_user = str(mydict["username"])
+#     con_name = str(mydict["name"])
+#     con_password = int(mydict["password"])
+#     #
+#     mycursor = mydb.cursor(dictionary=True)
+#     sql = "insert into user (user_id,username,name,password) values('{0}','{1}','{2}','{3}');".format(con_id,con_user,con_name,con_password);
+#     mycursor.execute(sql,)
+#     mydb.commit()
+#     print mycursor.rowcount, "record inserted."
+#     return "insert success"
+#
+# @my_app.route("/update",methods = ["PUT"])
+# def update():
+#     update_user = request.json
+#     print update_user
+#     mydict["id"] = update_user["user_id"]
+#     mydict["username"] = update_user["username"]
+#     mydict["name"] = update_user["name"]
+#     mydict["password"] = update_user["password"]
+#     mydict["id_edit"] =update_user["id_edit"]
+#     print mydict
+#     con_id = int(mydict["id"])
+#     con_user = str(mydict["username"])
+#     con_name = str(mydict["name"])
+#     con_password = int(mydict["password"])
+#     con_edit = int(mydict["id_edit"])
+#
+#     mycursor = mydb.cursor(dictionary=True)
+#     sql = "update user set user_id = '{0}', username = '{1}', name = '{2}', password = '{3}' where user_id = '{4}';".format(con_id,con_user,con_name,con_password,con_edit)
+#     mycursor.execute(sql)
+#
+#     mydb.commit()
+#     print mycursor.rowcount, "record(s) affected"
+#     return "update success"
+#
+# @my_app.route("/delete",methods = ["DELETE"])
+# def delete():
+#     delete_user = request.json
+#     print delete_user
+#     mydict["id"] = delete_user["user_id"]
+#
+#     print mydict
+#     con_id = int(mydict["id"])
+#
+#     mycursor = mydb.cursor(dictionary=True)
+#     sql = "delete from user where user_id = '{0}';".format(con_id)
+#     mycursor.execute(sql)
+#
+#     mydb.commit()
+#     print(mycursor.rowcount, "record(s) deleted")
+#     return "delete success"
+#
+#
+# my_app.run(host="0.0.0.0")
+
+#---------------
+url = "https://notify-api.line.me/api/notify"
+
+payload = "message=pip pip"
+headers = {
+    'Authorization': "Bearer 9JRfEhfcwHGz3wX8DSQU9z85OnQSnh0a3picmRatl4p",
+    'Content-Type': "application/x-www-form-urlencoded",
+
+    }
+
+response = requests.request("POST", url, data=payload, headers=headers)
+
+print(response.text)
