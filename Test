@@ -452,15 +452,27 @@ import paramiko
 # my_app.run(host="0.0.0.0")
 
 #---------------
-url = "https://notify-api.line.me/api/notify"
+# url = "https://notify-api.line.me/api/notify"
+#
+# payload = "message=pip pip"
+# headers = {
+#     'Authorization': "Bearer 9JRfEhfcwHGz3wX8DSQU9z85OnQSnh0a3picmRatl4p",
+#     'Content-Type': "application/x-www-form-urlencoded",
+#
+#     }
+#
+# response = requests.request("POST", url, data=payload, headers=headers)
+#
+# print(response.text)
 
-payload = "message=pip pip"
-headers = {
-    'Authorization': "Bearer 9JRfEhfcwHGz3wX8DSQU9z85OnQSnh0a3picmRatl4p",
-    'Content-Type': "application/x-www-form-urlencoded",
+# ************ Edit 1 **************
 
-    }
-
-response = requests.request("POST", url, data=payload, headers=headers)
-
-print(response.text)
+# ---- ex1-------
+box1_w = 10
+box1_l = 15
+box1_h = 10
+box2_w = 2
+box2_l = 10
+box2_h = 25
+ans_box1 = box1_w*box1_l*box1_h
+ans_box2 = box2_w*box2_l*box2_h
